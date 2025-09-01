@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Usman Iqbal — Portfolio | Web Developer & VPS/Hosting Expert</title>
+  <meta name="description" content="Full-stack web developer and VPS/hosting specialist. High-performance websites, secure servers, and premium infrastructure." />
+  <meta name="theme-color" content="#7c3aed" />
+  <style>
+    /* --------------------------
+       RESET + BASE
+    ---------------------------*/
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; }
+    body {
+      background: radial-gradient(1200px 700px at 80% -10%, rgba(124,58,237,.35), transparent 60%),
+                  radial-gradient(1000px 600px at -10% 30%, rgba(99,102,241,.25), transparent 60%),
+                  #0b0b12;
+      color: #e5e7eb;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    :root {
+      --bg-card: rgba(255,255,255,0.06);
+      --bg-card-strong: rgba(255,255,255,0.1);
+      --border: rgba(255,255,255,0.12);
+      --primary: #8b5cf6; /* violet-500 */
+      --primary-2: #22d3ee; /* cyan-400 */
+      --accent: #f472b6; /* pink-400 */
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --danger: #f87171;
+      --muted: #a1a1aa;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius-xl: 18px;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    
+    /* --------------------------
+       UTILITIES
+    ---------------------------*/
+    .container { width: min(1150px, 92vw); margin: 0 auto; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #0b0b12; font-weight: 700; padding: .9rem 1.2rem;
+      border-radius: 12px; border: 1px solid transparent;
+      box-shadow: 0 8px 24px rgba(139,92,246,.35);
+      transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+      will-change: transform, box-shadow;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(34,211,238,.35); }
+    .btn.ghost {
+      background: transparent; color: #e5e7eb; border-color: var(--border);
+      box-shadow: inset 0 0 0 1px var(--border);
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: linear-gradient(135deg, rgba(139,92,246,.2), rgba(34,211,238,.2));
+      border: 1px solid var(--border);
+      padding: .35rem .6rem; border-radius: 999px; font-size: .85rem; color: #c7d2fe;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--bg-card), rgba(255,255,255,0.03));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .grid { display: grid; gap: 1.2rem; }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .muted { color: var(--muted); }
+
+    /* --------------------------
+       NAV
+    ---------------------------*/
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,11,18,.6);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: .8rem 0; }
+    .brand { display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.2px; }
+    .brand img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%; /* circle */
+  border: 1px solid var(--border);
+  box-shadow: 0 0 8px rgba(255, 255, 0, 0.6); /* halka yellow glow */
+}
+
+    .menu { display:flex; gap:1rem; align-items:center; }
+    .menu a { padding:.5rem .8rem; border-radius:10px; border:1px solid transparent; }
+    .menu a:hover { border-color: var(--border); background: rgba(255,255,255,.03); }
+    .mobile-toggle { display:none; }
+
+    /* --------------------------
+       HERO
+    ---------------------------*/
+    .hero { padding: 6.5rem 0 3.5rem; }
+    .hero-wrap { display:grid; grid-template-columns: 1.2fr .8fr; gap: 2rem; align-items:center; }
+    .title {
+      font-size: clamp(2.2rem, 3.8vw, 4rem);
+      line-height: 1.1; font-weight: 900;
+      letter-spacing: .2px;
+      background: linear-gradient(180deg,#fff, #c7d2fe 60%, #a78bfa);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .lead { font-size: 1.05rem; color:#cbd5e1; margin:.8rem 0 1.2rem; }
+    .hero .actions { display:flex; gap:.8rem; flex-wrap:wrap; margin-top:1.2rem; }
+    .stats { margin-top: 1.5rem; display:flex; gap:1.2rem; flex-wrap:wrap; }
+    .stat { padding:.8rem 1rem; border:1px solid var(--border); border-radius:12px; background: rgba(255,255,255,.03); }
+    .hero-visual {
+      position: relative; aspect-ratio: 1/1; border-radius: 24px;
+      background: radial-gradient(120px 120px at 20% 20%, rgba(139,92,246,.35), transparent 40%),
+                  radial-gradient(120px 120px at 80% 70%, rgba(34,211,238,.3), transparent 45%),
+                  linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .hero-visual::after{
+      content:""; position:absolute; inset:10px;
+      border-radius:20px; border:1px dashed rgba(255,255,255,.12);
+    }
+
+    /* --------------------------
+       SECTIONS
+    ---------------------------*/
+    section { padding: 3.2rem 0; }
+    .section-head { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.3rem; }
+    .section-head h2 {
+      margin:0; font-size: clamp(1.4rem, 2.5vw, 2rem);
+      letter-spacing:.2px;
+    }
+    .pill { font-size:.85rem; padding:.35rem .6rem; border:1px solid var(--border); border-radius:999px; color:#c7d2fe; }
+
+    /* Skills */
+    .skills { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .skill { padding: .9rem; text-align:center; border-radius:12px; border:1px solid var(--border); background: rgba(255,255,255,.04); font-weight:700; }
+
+    /* Services */
+    .service { padding:1.2rem; display:flex; gap:1rem; border:1px solid var(--border); border-radius:14px; background: rgba(255,255,255,.04); }
+    .service .icon { font-size:1.3rem; }
+    .service h3 { margin:.2rem 0 .2rem; }
+
+    /* Projects */
+    .project { display:grid; grid-template-columns: .8fr 1.2fr; gap:1rem; padding:1rem; border:1px solid var(--border); border-radius:16px; background: rgba(255,255,255,.04); }
+    .project .thumb { aspect-ratio: 16/10; border-radius:12px; background: linear-gradient(135deg, rgba(139,92,246,.25), rgba(34,211,238,.25)); border:1px solid var(--border); }
+    .project h3{ margin:.2rem 0 .4rem; }
+    .chips { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .chip { font-size:.8rem; padding:.28rem .55rem; border:1px solid var(--border); border-radius:999px; color:#cbd5e1; background: rgba(255,255,255,.03); }
+
+    /* Pricing */
+    .price-card { padding:1.2rem; border:1px solid var(--border); border-radius:16px; background: rgba(255,255,255,.04); display:flex; flex-direction:column; gap:.7rem; }
+    .price { font-size:2rem; font-weight:900; }
+    .price small { font-size:.9rem; color:var(--muted); font-weight:600; }
+
+    /* Testimonials */
+    .quote { padding:1rem; border-left:3px solid var(--primary); background: rgba(255,255,255,.03); border-radius:12px; }
+
+    /* Footer */
+    footer { border-top:1px solid var(--border); background: rgba(11,11,18,.7); }
+    .foot { padding: 1.5rem 0; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .foot .links { display:flex; gap:1rem; flex-wrap:wrap; }
+
+    /* Back to top */
+    .top {
+      position: fixed; right: 16px; bottom: 16px; z-index: 40;
+      opacity: 0; transform: translateY(10px); pointer-events:none;
+      transition: opacity .2s, transform .2s;
+    }
+    .top.show { opacity:1; transform: none; pointer-events:auto; }
+
+    /* --------------------------
+       RESPONSIVE
+    ---------------------------*/
+    @media (max-width: 980px){
+      .hero-wrap { grid-template-columns: 1fr; }
+      .project { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .skills { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .menu { display:none; }
+      .mobile-toggle { display:inline-flex; }
+      .nav-open .menu { 
+        display:flex; position: absolute; left: 0; right: 0; top: 58px;
+        padding: .7rem; background: rgba(11,11,18,.98); border-bottom: 1px solid var(--border);
+        flex-direction: column; gap: .3rem;
+      }
+    }
+
+    @media (max-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+
+  header nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .hero img {
+    width: 80%;
+    margin-top: 20px;
+  }
+
+  .projects {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .contact form {
+    width: 80%;
+  }
+}
+
+/* For Mobile Phones (max 600px) */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  header {
+    padding: 10px;
+  }
+
+  header nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 10px;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .projects {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .contact form {
+    width: 100%;
+    padding: 10px;
+  }
+
+  footer {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+/* Large Devices (Desktops & Laptops) */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 1000px;
+  }
+  .hero h1 {
+    font-size: 3rem;
+  }
+  .card {
+    padding: 20px;
+  }
+}
+
+/* Medium Devices (Tablets Landscape) */
+@media (max-width: 992px) {
+  .container {
+    max-width: 850px;
+  }
+  .hero {
+    height: 60vh;
+    padding: 30px;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+  .card {
+    flex: 1 1 45%;
+    margin: 10px;
+  }
+}
+
+/* Small Devices (Tablets Portrait) */
+@media (max-width: 768px) {
+  .navbar .container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hero {
+    height: 50vh;
+    padding: 20px;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .card {
+    flex: 1 1 100%;
+  }
+  .card img {
+    max-width: 200px;
+  }
+}
+
+/* Extra Small Devices (Mobiles) */
+@media (max-width: 576px) {
+  .hero {
+    height: 40vh;
+    padding: 10px;
+  }
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  .navbar {
+    font-size: 14px;
+  }
+  .card img {
+    max-width: 160px;
+  }
+}
+
+/* Ultra Small Devices (Old Phones) */
+@media (max-width: 480px) {
+  .hero {
+    height: auto;
+    padding: 10px;
+  }
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+  .card img {
+    max-width: 120px;
+  }
+  .container {
+    padding: 5px;
+  }
+}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <div class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#home" aria-label="Go to top">
+        <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+        <span>Usman Iqbal</span>
+      </a>
+      <nav class="menu" id="menu">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <button class="mobile-toggle btn ghost" id="toggle" aria-label="Toggle menu">☰ Menu</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+<header class="hero container" id="home">
+  <div class="hero-wrap">
+    <div>
+      <span class="badge">🌐 Web Developer • 🔐 VPS/Hosting Expert</span>
+      <h1 class="title">I build blazing-fast websites & rock-solid servers.</h1>
+      <p class="lead">
+        From pixel-perfect frontends to scalable backends and secure VPS setups:
+        I deliver premium, production-ready solutions with uptime, speed, and style.
+      </p>
+      <div class="actions">
+        <a class="btn" href="contact.html">Start a Project</a>
+        <a class="btn ghost" href="#projects">View Projects</a>
+        <a class="btn ghost" href="#pricing">Pricing</a>
+      </div>
+      <div class="stats">
+        <div class="stat">⚡ 100+ Deployments</div>
+        <div class="stat">🔒 99.9% Uptime</div>
+        <div class="stat">🚀 TTFB < 100ms</div>
+        <div class="stat">🌍 Global Edge CDN</div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <img src="logo2.png" alt="Hero Visual" />
+    </div>
+  </div>
+</header>
+
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <h2>About</h2>
+        <span class="pill">Focused on performance & reliability</span>
+      </div>
+      <div class="grid grid-2">
+        <div class="card" style="padding:1.2rem">
+          <h3>Who I am</h3>
+          <p class="muted">
+            Full-stack developer crafting modern web apps and premium hosting environments.
+            I specialize in responsive UI, clean APIs, CI/CD, Docker, and production-grade VPS.
+          </p>
+          <ul>
+            <li>✅ Frontend: HTML, CSS, JS (ES6+), Tailwind-style utility architecture</li>
+            <li>✅ Backend: Node.js/Express, REST, auth, rate-limits</li>
+            <li>✅ Infra: Nginx, Docker, Linux hardening, backups, monitoring</li>
+          </ul>
+        </div>
+        <div class="card" style="padding:1.2rem">
+          <h3>What I deliver</h3>
+          <p class="muted">
+            SEO-friendly, accessible websites, with analytics, error tracking, and
+            near-zero downtime rollouts.
+          </p>
+          <ul>
+            <li>🚀 Lighthouse 95+ targets</li>
+            <li>🛡️ Hardened TLS, firewalls, auto-renew SSL</li>
+            <li>📈 Observability: logs, metrics, alerts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-head">
+        <h2>Core Skills</h2>
+        <span class="pill">Always leveling up</span>
+      </div>
+      <div class="grid skills">
+        <div class="skill">HTML5</div>
+        <div class="skill">CSS3</div>
+        <div class="skill">JavaScript (ES6+)</div>
+        <div class="skill">Node.js</div>
+        <div class="skill">Express</div>
+        <div class="skill">REST API</div>
+        <div class="skill">Nginx</div>
+        <div class="skill">Docker</div>
+        <div class="skill">Linux</div>
+        <div class="skill">CI/CD</div>
+        <div class="skill">SSL/TLS</div>
+        <div class="skill">Monitoring</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="section-head">
+        <h2>Services</h2>
+        <span class="pill">Web + VPS/Hosting</span>
+      </div>
+      <div class="grid grid-3">
+        <div class="service">
+          <div class="icon">🎨</div>
+          <div>
+            <h3>UI/UX & Frontend</h3>
+            <p class="muted">Responsive, accessible, SEO-ready interfaces with modern CSS architecture.</p>
+            <div class="chips">
+              <span class="chip">Semantic HTML</span>
+              <span class="chip">Animations</span>
+              <span class="chip">A11y</span>
+            </div>
+          </div>
+        </div>
+        <div class="service">
+          <div class="icon">🧠</div>
+          <div>
+            <h3>APIs & Backends</h3>
+            <p class="muted">Secure REST endpoints, auth, rate-limiting, and robust error handling.</p>
+            <div class="chips">
+              <span class="chip">Node/Express</span>
+              <span class="chip">JWT</span>
+              <span class="chip">Caching</span>
+            </div>
+          </div>
+        </div>
+        <div class="service">
+          <div class="icon">🖥️</div>
+          <div>
+            <h3>VPS/Hosting</h3>
+            <p class="muted">Nginx + Docker stacks, SSL auto-renewal, backups, and monitoring with 99.9% uptime.</p>
+            <div class="chips">
+              <span class="chip">Nginx</span>
+              <span class="chip">Docker</span>
+              <span class="chip">Fail2ban</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-head">
+      <h2>Featured Projects</h2>
+      <span class="pill">Case studies</span>
+    </div>
+
+    <div class="grid">
+      <article class="project">
+        <div class="thumb" role="img" aria-label="Project thumbnail" 
+             style="background-image: url('project1.jpg'); background-size: cover; background-position: center;"></div>
+        <div>
+          <h3>Universe Hosting — High-Performance Stack</h3>
+          <p class="muted">
+            Edge-cached static + API gateway on Nginx, Dockerized services, and blue-green deployments.
+          </p>
+          <div class="chips">
+            <span class="chip">Nginx</span><span class="chip">Docker</span><span class="chip">CI/CD</span>
+            <span class="chip">TLS</span>
+          </div>
+          <p style="margin-top:.5rem">
+            <a class="btn ghost" href="#" aria-label="Live demo (placeholder)">Live Demo</a>
+            <a class="btn ghost" href="#" aria-label="Source code (placeholder)">Source</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="thumb" role="img" aria-label="Project thumbnail" 
+             style="background-image: url('project2.jpg'); background-size: cover; background-position: center;"></div>
+        <div>
+          <h3>Commerce UI — Fast & Accessible</h3>
+          <p class="muted">E-commerce frontend with 95+ Lighthouse, semantic HTML, and instant nav.</p>
+          <div class="chips">
+            <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JS</span>
+          </div>
+          <p style="margin-top:.5rem">
+            <a class="btn ghost" href="#">Live Demo</a>
+            <a class="btn ghost" href="#">Source</a>
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <h2>Pricing</h2>
+        <span class="pill">Simple & transparent</span>
+      </div>
+      <div class="grid grid-3">
+        <div class="price-card">
+          <h3>Starter</h3>
+          <div class="price">$199 <small>/site</small></div>
+          <p class="muted">Landing page, basic SEO, deploy included.</p>
+          <div class="chips">
+            <span class="chip">1 page</span><span class="chip">SSL</span><span class="chip">Analytics</span>
+          </div>
+          <a class="btn" href="contact.html">Choose Starter</a>
+        </div>
+        <div class="price-card" style="border-color:#a78bfa; box-shadow:0 0 0 2px rgba(167,139,250,.25) inset;">
+          <h3>Pro</h3>
+          <div class="price">$599 <small>/project</small></div>
+          <p class="muted">Multi-page site, backend endpoints, VPS setup.</p>
+          <div class="chips">
+            <span class="chip">Nginx</span><span class="chip">Docker</span><span class="chip">CDN</span>
+          </div>
+          <a class="btn" href="contact.html">Choose Pro</a>
+        </div>
+        <div class="price-card">
+          <h3>Enterprise</h3>
+          <div class="price">Custom</div>
+          <p class="muted">SLAs, HA deployments, 24/7 monitoring, SSO.</p>
+          <div class="chips">
+            <span class="chip">SRE</span><span class="chip">HA</span><span class="chip">Blue-Green</span>
+          </div>
+          <a class="btn" href="contact.html">Talk to Me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-head">
+        <h2>Testimonials</h2>
+        <span class="pill">Trusted by clients</span>
+      </div>
+      <div class="grid">
+        <blockquote class="quote">“Rock-solid VPS configuration. Zero downtime during migration. Highly recommended.” — A. Khan</blockquote>
+        <blockquote class="quote">“Clean code, fast delivery, and Lighthouse 98. Couldn’t ask for more.” — S. Ahmed</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="container card" style="padding:1.4rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+      <div>
+        <h3 style="margin:.2rem 0">Have a project in mind?</h3>
+        <p class="muted" style="margin:0">Let’s build something fast, secure, and beautiful.</p>
+      </div>
+      <p style="margin:0; display:flex; gap:.6rem; flex-wrap:wrap;">
+        <a class="btn" href="contact.html">Contact Me</a>
+        <a class="btn ghost" href="#">Download CV</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container foot">
+      <div class="brand">
+        <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+        <strong>Usman Iqbal</strong>
+      </div>
+      <div class="links muted">
+        <a href="#home">Top</a> •
+        <a href="contact.html">Contact</a> •
+        <a href="#projects">Projects</a>
+      </div>
+      <div class="muted">© <span id="y"></span> All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP BUTTON -->
+  <a class="btn top" id="topBtn" href="#home" aria-label="Back to top">↑ Top</a>
+
+  <script>
+    // Mobile menu
+    const toggle = document.getElementById('toggle');
+    const nav = document.getElementById('nav');
+    const menu = document.getElementById('menu');
+    toggle?.addEventListener('click', () => {
+      document.body.classList.toggle('nav-open');
+    });
+
+    // Back to top show/hide
+    const topBtn = document.getElementById('topBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 600) topBtn.classList.add('show'); else topBtn.classList.remove('show');
+    });
+
+    // Current year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Smooth scroll for internal anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id = a.getAttribute('href');
+        if(id.length>1){
+          e.preventDefault();
+          document.querySelector(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+          document.body.classList.remove('nav-open');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
